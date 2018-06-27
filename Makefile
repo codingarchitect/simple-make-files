@@ -1,10 +1,15 @@
+# define the command that we use for compilation
+CC = gcc -Wall
+# which targets do we want to build by default?
+# note that 'targets' is just a variable, its name
+# does not have any special meaning to make
+targets = hello
+# first target defined will be the default target
+# we use the variable to hold the dependencies
 .PHONY: all
-all: hello
-# define default target (first target = default)
-# it depends on 'hello.o' (which will be created if necessary)
-# and hello_func.o (same as hello.o)
+all: $(targets)
 hello: hello.o hello_func.o
-		gcc -Wall hello.o hello_func.o -o hello
+		$(CC) hello.o hello_func.o -o hello
 # define hello.o target
 # it depends on hello.c (and is created from it)
 # also depends on hello_api.h which would mean that
@@ -12,12 +17,12 @@ hello: hello.o hello_func.o
 # this target (hello.o).
 # gcc -c: compile only, do not link
 hello.o: hello.c hello_api.h
-		gcc -Wall -c hello.c -o hello.o
+		$(CC) -c hello.c -o hello.o
 # define hello_func.o target
 # it depends on hello_func.c (and is created from)
 # and hello_api.h (since that's its declaration)
 hello_func.o: hello_func.c hello_api.h
-		gcc -Wall -c hello_func.c -o hello_func.o
+		$(CC) -c hello_func.c -o hello_func.o
 .PHONY: clean
 # This is the definition of the target 'clean'
 # Here we'll remove all the built binaries and
@@ -30,4 +35,4 @@ hello_func.o: hello_func.c hello_api.h
 # holding the file, rm will not then ask for permission
 # interactivelly.
 clean:
-		rm -f hello hello.o hello_func.o
+		rm -f $(targets) *.o
