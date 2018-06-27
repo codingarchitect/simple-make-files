@@ -1,3 +1,5 @@
+.PHONY: all
+all: hello
 # define default target (first target = default)
 # it depends on 'hello.o' (which will be created if necessary)
 # and hello_func.o (same as hello.o)
@@ -16,6 +18,7 @@ hello.o: hello.c hello_api.h
 # and hello_api.h (since that's its declaration)
 hello_func.o: hello_func.c hello_api.h
 		gcc -Wall -c hello_func.c -o hello_func.o
+.PHONY: clean
 # This is the definition of the target 'clean'
 # Here we'll remove all the built binaries and
 # all the object files that we might have generated
