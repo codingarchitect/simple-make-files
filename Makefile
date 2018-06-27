@@ -1,38 +1,14 @@
-# define the command that we use for compilation
-CC = gcc -Wall
-# which targets do we want to build by default?
-# note that 'targets' is just a variable, its name
-# does not have any special meaning to make
+# add the warning flag to CFLAGS-variable
+CFLAGS += -Wall
 targets = hello
-# first target defined will be the default target
-# we use the variable to hold the dependencies
 .PHONY: all
 all: $(targets)
 hello: hello.o hello_func.o
-		$(CC) hello.o hello_func.o -o hello
-# define hello.o target
-# it depends on hello.c (and is created from it)
-# also depends on hello_api.h which would mean that
-# changing the hello.h api would force make to rebuild
-# this target (hello.o).
-# gcc -c: compile only, do not link
+        $(CC) $^ -o $@
 hello.o: hello.c hello_api.h
-		$(CC) -c hello.c -o hello.o
-# define hello_func.o target
-# it depends on hello_func.c (and is created from)
-# and hello_api.h (since that's its declaration)
+        $(CC) $(CFLAGS) -c $< -o $@
 hello_func.o: hello_func.c hello_api.h
-		$(CC) -c hello_func.c -o hello_func.o
+        $(CC) $(CFLAGS) -c $< -o $@
 .PHONY: clean
-# This is the definition of the target 'clean'
-# Here we'll remove all the built binaries and
-# all the object files that we might have generated
-# Notice the -f flag for rm, it means "force" which
-# in turn means that rm will try to remove the given
-# files, and if there are none, then that's ok. Also
-# it means that we have no writing permission to that
-# file and have writing permission to the directory
-# holding the file, rm will not then ask for permission
-# interactivelly.
 clean:
-		rm -f $(targets) *.o
+        $(RM) $(targets) *.o
