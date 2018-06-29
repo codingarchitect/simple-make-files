@@ -13,6 +13,7 @@
  
 /* Function to print out "Hello world!\n". */
 extern void sayhello(void);
+extern void getline(void);
  
 #endif
 /* ifndef INCLUDE_HELLO_API_H */

@@ -1,5 +1,6 @@
-# add the warning flag to CFLAGS-variable
-CFLAGS += -Wall
+# add the warning flag to CFLAGS-variable and set c90 standard
+CFLAGS += -Wall -std=c90
+CC = gcc
 targets = hello
 .PHONY: all
 all: $(targets)
